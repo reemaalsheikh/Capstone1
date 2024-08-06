@@ -42,4 +42,13 @@ public class User {
     private double balance;
 
 
+//Extra..
+    @NotEmpty(message="Payment method should not be Empty!")
+    @Pattern(regexp = "^(Cash|CreditCard)$" , message = "Two valid inputs only Cash, and CreditCard!")
+    private String paymentMethod;
+
+    @NotNull(message = "Total price should not be Empty!")
+    private double totalPrice;
+
+
 }

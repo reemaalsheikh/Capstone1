@@ -1,16 +1,21 @@
 package com.example.capstone1.Service;
 
+import com.example.capstone1.Model.MerchantStock;
 import com.example.capstone1.Model.Product;
+import com.example.capstone1.Model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+
 
 @Service
 @RequiredArgsConstructor
 public class ProductService {
 
     private final CategoryService categoryService;
+    private final MerchantStockService merchantStockService;
+   // private final UserService userService;
 
 //Create endpoint for getting and adding and deleting updating a Product.
 
@@ -28,6 +33,7 @@ public class ProductService {
                 products.add(product);
             }
         }
+
 
     }
 
@@ -67,12 +73,21 @@ public class ProductService {
     }
 
 
-
-
-
-
-
-
+//    public ArrayList<Product> ShoppingCart (Product product){
+//        ArrayList<Product> shoppingCart = new ArrayList<>();
+//      for (int i = 0; i < products.size(); i++) {
+//          if (products.get(i).getProductId().equalsIgnoreCase(product.getProductId())) {
+//              shoppingCart.add(products.get(i));
+//          }
+//      }
+//        for (MerchantStock m : merchantStockService.getMerchantStock()) {
+//            if (m.getProductId().equals(product.getProductId()) && m.getMerchantId().equals(m.getMerchantId())){
+//
+//            }
+//        }
+//      return shoppingCart;
+//
+//    }
 
 
 

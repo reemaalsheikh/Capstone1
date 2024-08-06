@@ -1,14 +1,18 @@
 package com.example.capstone1.Service;
 
 import com.example.capstone1.Model.MerchantStock;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 
 import java.util.ArrayList;
 
 @Service
+@RequiredArgsConstructor
 public class MerchantStockService {
 
+    private final UserService userService;
+    private final ProductService productService;
 
     ArrayList <MerchantStock> merchantStocks = new ArrayList<>();
 
@@ -68,6 +72,25 @@ public class MerchantStockService {
        }
 
        return false;
+    }
+
+
+
+
+
+    public boolean discount(String userId , String productId){
+        for (int i = 0; i < userService.users.size(); i++) {
+            if (userService.users.get(i).getUserId().equals(userId) && userService.users.get(i).getRole().equals("Admin")) {
+                if(merchantStocks.get(i).getProductId().equals(productId)){
+                    if(merchantStocks.get(i).getStock() > 0) {
+                        productService.products.get(i).setProductPrice(productService.products.get(i).getProductPrice()*0.15);
+                        return true;
+
+                    }
+                }
+            }
+        }
+        return false;
     }
 
 

@@ -9,11 +9,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+
 
 @RestController
 @RequestMapping("/api/v1/user")
 @RequiredArgsConstructor
 public class UserController {
+
     private final UserService userService;
 
 
@@ -77,9 +80,18 @@ public class UserController {
          return ResponseEntity.status(400).body(new ApiResponse("Error! balance is less than the product price."));
      }
 
-         return ResponseEntity.status(200).body(new ApiResponse("Succssfully bought the product"));
+         return ResponseEntity.status(200).body(new ApiResponse("Successfully bought the product"));
 
 
+    }
+
+    @PutMapping("checkout/{userId}")
+    public ResponseEntity Checkout (String userId){
+        ArrayList<User> checkOut = userService.checkout(userId);
+        if(checkOut.isEmpty()){
+            return ResponseEntity.status(400).body(new ApiResponse("Checkout failed"));
+        }
+        return ResponseEntity.status(200).body(Checkout(userId));
     }
 
 

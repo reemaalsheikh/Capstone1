@@ -1,5 +1,6 @@
 package com.example.capstone1.Service;
 import com.example.capstone1.Model.MerchantStock;
+import com.example.capstone1.Model.Product;
 import com.example.capstone1.Model.User;
 
 import lombok.RequiredArgsConstructor;
@@ -7,13 +8,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
-   // private final MerchantService merchantService;
     private final ProductService productService;
-    private final MerchantStockService merchantStockService;
+    private  MerchantStockService merchantStockService;
+
 
 
     ArrayList<User> users = new ArrayList<>();
@@ -78,19 +80,43 @@ public class UserService {
                         } else {
                             return 2; //Error! balance is less than the product price
                         }
-
-
                     }
 
                 }
 
                 return 3; //success
             }
-
-
         }
         return 0; //not found
     }
+
+
+
+    public ArrayList<User> checkout (String userId) {
+     ArrayList<User> checkout  = new ArrayList<>();
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).getUserId().equalsIgnoreCase(userId)) {
+            }
+            for (MerchantStock m : merchantStockService.getMerchantStock()) {
+                if (m.getProductId().equals(productService.getProducts().get(i).getProductPrice())) {
+                    buyProduct(userId, m.getProductId(), m.getMerchantId());
+
+                    if(users.get(i).getPaymentMethod().equalsIgnoreCase("Cash")){
+                        users.get(i).setTotalPrice((productService.getProducts().get(i).getProductPrice()) + (productService.getProducts().get(i).getProductPrice()+15));
+                    }
+                    if(users.get(i).getPaymentMethod().equalsIgnoreCase("CreditCard")){
+                        users.get(i).setTotalPrice((productService.getProducts().get(i).getProductPrice()) + (productService.getProducts().get(i).getProductPrice()*0.15));
+                    }
+                }
+
+            }
+        }
+        return checkout;
+
+    }
+
+
+
 
 
 
