@@ -73,14 +73,6 @@ public class MerchantStockController {
     }
 
 
-    @PutMapping("/discount/{userId}/{productId}")
-    public ResponseEntity discount(@PathVariable String userId,@PathVariable String productId) {
-        boolean discount = merchantStockService.discount(userId,productId);
-        if (discount) {
-            return ResponseEntity.status(200).body(new ApiResponse("Discount Added Successfully!"));
-        }
-        return ResponseEntity.status(400).body(new ApiResponse("Discount Not Found!"));
-    }
 
 
 

@@ -1,6 +1,4 @@
 package com.example.capstone1.Service;
-import com.example.capstone1.Model.MerchantStock;
-import com.example.capstone1.Model.Product;
 import com.example.capstone1.Model.User;
 
 import lombok.RequiredArgsConstructor;
@@ -13,8 +11,6 @@ import java.util.ArrayList;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final ProductService productService;
-    private  MerchantStockService merchantStockService;
 
 
 
@@ -25,6 +21,7 @@ public class UserService {
     }
 
     public void addUsers(User user) {
+
         users.add(user);
     }
 
@@ -47,71 +44,20 @@ public class UserService {
         }
         return false;
     }
-
-
-// 12.Create endpoint where user can buy a product directly
-//• this endpoint should accept user id, product id, merchant id.
-//• check if all the given ids are valid or not
-//• check if the merchant has the product in stock or return bad request.
-//• reduce the stock from the MerchantStock.
-//• deducted the price of the product from the user balance.
-//• if balance is less than the product price returns bad request.
-
-
-    public int buyProduct(String userId, String productId, String merchantId) {
-
-        for (int i = 0; i < users.size(); i++) {
-            //• check if all the given ids are valid or not
-            if (users.get(i).getUserId().equalsIgnoreCase(userId)) { //user done
-                for (MerchantStock m : merchantStockService.getMerchantStock()) {
-
-                 //• check if the merchant has the product in stock or return bad request.
-                    if (m.getProductId().equals(productId) && m.getMerchantId().equals(merchantId)) { //product+merchant
-                        if (m.getStock() > 0) {
-                        //• reduce the stock from the MerchantStock.
-                            m.setStock(m.getStock() - 1);
-                        } else {
-                            return 1;//The product is not in stock
-                        }
-
-                        //• deducted the price of the product from the user balance.
-                        if (users.get(i).getBalance() >= productService.getProducts().get(i).getProductPrice()) {
-                            users.get(i).setBalance(users.get(i).getBalance() - productService.getProducts().get(i).getProductPrice());
-                        } else {
-                            return 2; //Error! balance is less than the product price
-                        }
-                    }
-
-                }
-
-                return 3; //success
-            }
-        }
-        return 0; //not found
-    }
-
-
-
-    public ArrayList<User> checkout (String userId) {
-     ArrayList<User> checkout  = new ArrayList<>();
+    public User getUserById(String userId) {
         for (int i = 0; i < users.size(); i++) {
             if (users.get(i).getUserId().equalsIgnoreCase(userId)) {
-            }
-            for (MerchantStock m : merchantStockService.getMerchantStock()) {
-                if (m.getProductId().equals(productService.getProducts().get(i).getProductPrice())) {
-                    buyProduct(userId, m.getProductId(), m.getMerchantId());
-
-                    if(users.get(i).getPaymentMethod().equalsIgnoreCase("Cash")){
-                        users.get(i).setTotalPrice((productService.getProducts().get(i).getProductPrice()) + (productService.getProducts().get(i).getProductPrice()+15));
-                    }
-                    if(users.get(i).getPaymentMethod().equalsIgnoreCase("CreditCard")){
-                        users.get(i).setTotalPrice((productService.getProducts().get(i).getProductPrice()) + (productService.getProducts().get(i).getProductPrice()*0.15));
-                    }
-                }
-
+                return users.get(i);
             }
         }
-        return checkout;
+      return null;
+    }
+
+
+
+
+
+
 
     }
 
@@ -121,7 +67,7 @@ public class UserService {
 
 
 
-}
+
 
 
 

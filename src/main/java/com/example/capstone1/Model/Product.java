@@ -4,6 +4,8 @@ import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.ArrayList;
+
 @Data
 @AllArgsConstructor
 
@@ -29,12 +31,9 @@ public class Product {
 private String categoryID;
 
 
-//    @NotEmpty(message="Payment method should not be Empty!")
-//    @Pattern(regexp = "^(Cash|CreditCard)$" , message = "Two valid inputs only Cash, and CreditCard!")
-//    private String paymentMethod;
+    private int topSeller=0;
 
-    @NotNull(message = "Total price should not be Empty!")
-    private double totalPrice;
+    private String review;
 
 
 
